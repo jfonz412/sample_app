@@ -1,1 +1,8 @@
-#emptied during chapter 6
+michael:
+  name: Michael Example
+  email: michael@example.com
+  password_digest: <%= User.digest('password') %> # see User model for digest method
+
+  # you can now call this user inside tests 
+  # user = users(:michael)
+  # users in this case refers to this filename

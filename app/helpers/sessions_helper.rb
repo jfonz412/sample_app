@@ -2,7 +2,7 @@ module SessionsHelper
 
 	# Logs in the given user.
 	def log_in(user)
-		session[:user_id] = user.id 
+		session[:user_id] = user.id #session automatically encrypts this
 	end
 
 	def remember(user)
@@ -15,7 +15,7 @@ module SessionsHelper
 	def current_user
 		if (user_id = session[:user_id]) #if this is not nil
 			@current_user ||= User.find_by(id: user_id) 
-		elsif (user_id = cookies.signed[:user_id])
+		elsif (user_id = cookies.signed[:user_id]) 
 			user = User.find_by(id: user_id)
 			if user && user.authenticated?(cookies[:remember_token]) #token passed from browser
 				log_in user

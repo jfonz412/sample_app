@@ -9,6 +9,7 @@ class MicropostsInterfaceTest < ActionDispatch::IntegrationTest
 		log_in_as(@user)
 		get root_path
 		assert_select 'div.pagination'
+        assert_select 'input[type=file]'
 		# Invalid submission
 		assert_no_difference 'Micropost.count' do
 			post microposts_path, params: { micropost: { content: "" } }
@@ -16,9 +17,12 @@ class MicropostsInterfaceTest < ActionDispatch::IntegrationTest
 		assert_select 'div#error_explanation'
 		# Valid submission
 		content = "This micropost really ties the room together"
-		assert_difference 'Micropost.count', 1 do
-      post microposts_path, params: { micropost: { content: content } }
+    picture = fixture_file_upload('test/fixtures/rails.png', 'image/png')
+    assert_difference 'Micropost.count', 1 do
+      post microposts_path, micropost: { content: content, picture: picture }
     end
+    micropost = assigns(:micropost)
+    assert micropost.picture? # checks if micropost has a picture
     assert_redirected_to root_url
     follow_redirect!
     assert_match content, response.body # check the whole page for (var) 'content'

@@ -3,6 +3,9 @@ source 'https://rubygems.org'
 gem 'rails',                   '5.0.1'
 gem 'bcrypt',                  '3.1.11'
 gem 'faker',                   '1.6.6'
+gem 'carrierwave',             '1.1.0'  # image uploader
+gem 'mini_magick',             '4.7.0'  # image resizing
+gem 'fog',                     '1.40.0' # image upload in production
 gem 'will_paginate',           '3.1.0'
 gem 'bootstrap-will_paginate', '0.0.10'
 gem 'bootstrap-sass',          '3.3.6'

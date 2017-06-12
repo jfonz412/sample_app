@@ -66,6 +66,13 @@ class User < ApplicationRecord
     reset_sent_at < 2.hours.ago
   end
 
+  # Defines a proto-feed
+  # See "Following users" for the full implementation
+  # ? can be subsituted for id, but would cause a major security hole 
+  def feed
+    Micropost.where("user_id = ?", id) # pulls all posts of this user via id
+  end
+
   private
 
     def downcase_email

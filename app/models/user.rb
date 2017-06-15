@@ -1,5 +1,8 @@
 class User < ApplicationRecord
   has_many :microposts, dependent: :destroy
+  has_many :active_relationships, class_name:  "Relationship",
+                                  foreign_key: "follower_id", #Relationship refers to user as follower_id
+                                  dependent:   :destroy       #if user destroyed, destroy relationships
   attr_accessor :remember_token, :activation_token, :reset_token # tokens are for the class
   before_save   :downcase_email
   before_create :create_activation_digest # digest is stored in the database

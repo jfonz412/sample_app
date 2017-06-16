@@ -1,15 +1,17 @@
 class User < ApplicationRecord
   attr_accessor :remember_token, :activation_token, :reset_token # tokens are for the class
-
+  # Represents people user is following
   has_many :microposts, dependent: :destroy
-  has_many :active_relationships,  class_name:  "Relationship",
-                                   foreign_key: "follower_id", #Relationship refers to user as follower_id
-                                   dependent:   :destroy       #if user destroyed, destroy relationships 
-  has_many :passive_relationships, class_name:  "Relationship",
-                                   foreign_key: "followed_id",
+  has_many :active_relationships,  class_name:  "Relationship", # has many relationship tables, known to user as active_relationship
+                                   foreign_key: "follower_id",  # and is known to that table as a follower_id if user is following a user
+                                   dependent:   :destroy        # this relationship table represents the people you are following
+  # Represents followers for a user
+  has_many :passive_relationships, class_name:  "Relationship", 
+                                   foreign_key: "followed_id",  # a user is known to a passive relationship table as a followed_id
                                    dependent:   :destroy
-  has_many :following, through: :active_relationships,  source: :followed # acts like an ARRAY (active record ass.)
-  has_many :followers, through: :passive_relationships, source: :follower
+  # Names/renames followed/follower             
+  has_many :following, through: :active_relationships,  source: :followed # gives us user.following, which looks for who the user has followed(_id)
+  has_many :followers, through: :passive_relationships, source: :follower # gives us user.followers, which looks for follower(_id)s of this user...
   
   before_save   :downcase_email
   before_create :create_activation_digest # digest is stored in the database
@@ -85,6 +87,7 @@ class User < ApplicationRecord
     Micropost.where("user_id = ?", id) # pulls all posts of this user via id
   end
 
+  # Add a user to following AR Association, which acts like an array
   def follow(other_user)
     following << other_user
   end

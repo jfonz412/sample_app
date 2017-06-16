@@ -15,7 +15,7 @@ Rails.application.routes.draw do
   resources :users do
     member do # this "arranges for routes to respond to URLs containing the user id" (L 14.15)
       #uses 'get' to arrange for url to "show" data
-      get :following, :followers #adds users/:id/following users/:id/followers
+      get :following, :followers #adds users/:id/following and users/:id/followers
     end
   end
   resources :account_activations, only: [:edit]

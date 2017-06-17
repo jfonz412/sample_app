@@ -17,9 +17,9 @@ module SessionsHelper
 
 	# Returns the current logged-in user (if any).
 	def current_user
-		if (user_id = session[:user_id]) #if this is not nil
+		if (user_id = session[:user_id]) #if this is not nil (if nil, no one is logged in)
 			@current_user ||= User.find_by(id: user_id) 
-		elsif (user_id = cookies.signed[:user_id]) 
+		elsif (user_id = cookies.signed[:user_id]) # checks cookies for an id, will be nil if remember_me = 0
 			user = User.find_by(id: user_id)
 			if user && user.authenticated?(:remember, cookies[:remember_token]) #token passed from browser
 				log_in user

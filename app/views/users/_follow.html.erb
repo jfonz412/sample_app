@@ -1,6 +1,8 @@
  <!-- form builds a realtionship for current_user, then passes the user :id for the @user being shown to the button, so when it is pressed it POSTs the id as :followed_id to relationships#create-->
 
-<%= form_for(current_user.active_relationships.build) do |f| %>
-	<div><%= hidden_field_tag :followed_id, @user.id %></div>
-	<%= f.submit "Follow", class: "btn btn-primary" %>
+ <!-- remote: true enables Ajax, or asychronous http requests so that we don't have to redirect back to the same page we started at -->
+
+<%= form_for(current_user.active_relationships.build, remote: true) do |f| %>
+  <div><%= hidden_field_tag :followed_id, @user.id %></div>
+  <%= f.submit "Follow", class: "btn btn-primary" %>
 <% end %>

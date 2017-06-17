@@ -1,0 +1,13 @@
+$("#follow_form").html("<%= escape_javascript(render('users/unfollow')) %>");
+$("#followers").html('<%= @user.followers.count %>');
+/*
+  each line first manipulates a css element, then uses a method (.html) to update the 
+  HTML inside that element with the content of it's arguments.
+
+  $("#css_id").html("Foobar") will replace this element with the word foobar
+
+The first line updates the form with the unfollow partial, or changes the button
+from follow to unfollow. 
+
+Then it updates the follower count (listing 14.38)
+*/

@@ -84,7 +84,12 @@ class User < ApplicationRecord
   # See "Following users" for the full implementation
   # ? can be subsituted for id, but would cause a major security hole 
   def feed
-    Micropost.where("user_id = ?", id) # pulls all posts of this user via id
+    # selects all users this user is following
+    following_ids = "SELECT followed_id FROM relationships
+                     WHERE follower_id = :user_id" 
+    # subselect, so we don't pull out the entire database 14.47
+    Micropost.where("user_id IN (#{following_ids})
+                     OR user_id = :user_id", user_id: id) # L 14.44
   end
 
   # Add a user to following AR Association, which acts like an array

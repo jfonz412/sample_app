@@ -52,4 +52,12 @@ class FollowingTest < ActionDispatch::IntegrationTest
 			delete relationship_path(relationship), xhr: true
 		end
 	end
+=begin 14.49, no idea how to complete this
+  test "feed on Home page" do
+    get root_path
+    @user.feed.paginate(page: 1).each do |micropost|
+      assert_match CGI.escapeHTML(FILL_IN),FILL_IN
+    end
+  end
+=end
 end
